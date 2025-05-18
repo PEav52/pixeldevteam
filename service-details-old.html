@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <meta name="description" content="Get a custom-coded personal website with Pixel IT Solution. Affordable, responsive, and SEO-optimized portfolios starting at $79.">
+    <meta name="keywords" content="custom website, portfolio website, web development, Pixel IT Solution">
+    <title>Custom-Coded Website - Pixel IT Solution</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Top Contact Bar -->
+    <div class="bg-gray-800 text-white py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+                <span><i class="fas fa-phone mr-2"></i>Call: +1-800-555-1234</span>
+                <span><i class="fas fa-envelope mr-2"></i>Mail: support@pixelitsolution.com</span>
+            </div>
+            <div class="flex space-x-4 mt-2 sm:mt-0">
+                <a href="https://facebook.com" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                <a href="https://instagram.com" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" class="hover:text-blue-300"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-blue-600"><a href="index.html">Pixel IT Solution</a></div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="#overview" class="text-gray-600 hover:text-blue-600">Overview</a>
+                <a href="#included" class="text-gray-600 hover:text-blue-600">Included</a>
+                <a href="#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="#our-work" class="text-gray-600 hover:text-blue-600">Our Work</a>
+                <a href="#testimonials" class="text-gray-600 hover:text-blue-600">Testimonials</a>
+                <a href="#faq" class="text-gray-600 hover:text-blue-600">FAQ</a>
+                <a href="#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500">Get A Quote</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-sm">
+            <nav class="flex flex-col space-y-2 px-4 py-4">
+                <a href="#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="#overview" class="text-gray-600 hover:text-blue-600">Overview</a>
+                <a href="#included" class="text-gray-600 hover:text-blue-600">Included</a>
+                <a href="#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="#our-work" class="text-gray-600 hover:text-blue-600">Our Work</a>
+                <a href="#testimonials" class="text-gray-600 hover:text-blue-600">Testimonials</a>
+                <a href="#faq" class="text-gray-600 hover:text-blue-600">FAQ</a>
+                <a href="#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 text-left">Get A Quote</a>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+        // Toggle mobile menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-700 text-white py-12 md:py-20" id="home">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 text-center md:text-left opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.2s;">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4">Launch Your Portfolio Website</h1>
+                <p class="text-gray-200 text-sm md:text-base mb-6">Showcase your skills with a hand-coded, responsive portfolio or blog tailored to you.</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500 text-sm md:text-base transform transition-transform hover:scale-105" aria-label="Get a free quote">Get a Free Quote</a>
+                <p class="text-gray-300 text-sm mt-4">Starting at $79 | Trusted by 100+ clients</p>
+            </div>
+            <div class="md:w-1/2 mt-6 md:mt-0 flex justify-center opacity-0 animate-slideIn" style="animation: slideIn 1s forwards 0.4s;">
+                <img src="images/personal-data-71.svg" alt="Custom Website Mockup" class="rounded-lg w-full max-w-xs md:max-w-none">
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Overview -->
+    <section class="py-16" id="overview">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">Why Choose Our Custom Coding Service?</h2>
+            <p class="text-gray-600 mb-4">Our custom coding service is designed for freelancers, artists, bloggers, and professionals seeking a unique online presence. We hand-code responsive, high-performance websites using HTML, CSS, tailwindCSS, JavaScript, and PHP, tailored to your personal style.</p>
+            <p class="text-gray-600 mb-6">Each website is built from scratch in 2-5 weeks, including coding, testing, and revisions, depending on project complexity and client approvals. All sites include SEO optimization to enhance search visibility. Note: Domain and hosting are purchased separately.</p>
+            <ul class="text-gray-600 list-disc list-inside mb-6">
+                <li>Affordable pricing starting at $79</li>
+                <li>Custom-coded in 2-10 weeks with client approvals</li>
+                <li>Bespoke designs tailored to your personal brand</li>
+                <li>Optimized for mobile and desktop performance</li>
+            </ul>
+            <p class="text-gray-600 text-sm">*Domain name and hosting server are not included and must be purchased separately. See our <a href="index.html#pricing" class="text-blue-600 font-semibold hover:underline">Pricing</a> for details.</p>
+        </div>
+    </section>
+
+    <!-- What's Included -->
+    <section class="py-16 bg-gray-50" id="included">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">What’s Included</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex items-start">
+                    <i class="fas fa-mobile-alt text-yellow-400 text-2xl mr-4"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Responsive Design</h3>
+                        <p class="text-gray-600">Your website will look great on desktops, tablets, and smartphones.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-share-alt text-yellow-400 text-2xl mr-4"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Social Media Integration</h3>
+                        <p class="text-gray-600">Connect your site to social platforms like Instagram, Twitter, or LinkedIn for easy sharing.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-search text-yellow-400 text-2xl mr-4"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Basic SEO Optimization</h3>
+                        <p class="text-gray-600">Optimized for search engines to improve your visibility.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-file-alt text-yellow-400 text-2xl mr-4"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">1-5 Pages</h3>
+                        <p class="text-gray-600">Includes Home, About, Contact, and other pages as needed.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-headset text-yellow-400 text-2xl mr-4"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">30 Days Free Support</h3>
+                        <p class="text-gray-600">We provide 30 days of free maintenance and support post-launch.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-tachometer-alt text-yellow-400 text-2xl mr-4"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Admin Dashboard</h3>
+                        <p class="text-gray-600">A custom-coded interface to manage your website’s content and settings.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-600 text-sm mt-6">*Domain name and hosting server are not included and must be purchased separately. See our <a href="index.html#pricing" class="text-blue-600 font-semibold hover:underline">Pricing</a> for details.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Breakdown -->
+    <section class="py-16" id="pricing">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">Pricing Breakdown</h2>
+            <p class="text-gray-600 mb-6">Our custom-coded websites range from $79 to $299, depending on the number of pages and level of customization. Additional costs for hosting ($10-$50/month) and domain ($12.99-$29.99/year) may apply.</p>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Packages</h3>
+                <ul class="text-gray-600 space-y-4">
+                    <li class="flex justify-between items-center">
+                        <span>Basic (1-3 Pages, Basic Design)</span>
+                        <span class="font-bold">$79</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span>Standard (3-5 Pages, Custom Design)</span>
+                        <span class="font-bold">$199</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span>Premium (5 Pages, Interactive Features, Advanced SEO)</span>
+                        <span class="font-bold">$299</span>
+                    </li>
+                </ul>
+                <a href="#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500 inline-block mt-6" aria-label="Get a custom quote">Get a Custom Quote</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Overview -->
+    <section class="py-16 bg-gray-50" id="process">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">Our Process</h2>
+            <p class="text-gray-600 mb-6 text-center">Typical delivery in 2-10 weeks, depending on customization.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-900 font-bold">1</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Consultation</h3>
+                    <p class="text-gray-600">We discuss your vision, goals, and content needs.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-900 font-bold">2</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Design</h3>
+                    <p class="text-gray-600">We create a custom design mockup for your approval.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-900 font-bold">3</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Coding</h3>
+                    <p class="text-gray-600">We hand-code your site using HTML, CSS, and JavaScript.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-900 font-bold">4</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Launch</h3>
+                    <p class="text-gray-600">We test and launch your site with SEO setup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Works -->
+    <section class="py-16" id="our-work">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">Our Work</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
+                    <img src="https://img.freepik.com/free-psd/art-exhibition-gallery-landing-page-template_23-2149731730.jpg?ga=GA1.1.1937769153.1745503587&semt=ais_hybrid&w=740" alt="Artist Portfolio" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Artist Portfolio</h3>
+                        <p class="text-gray-600 mb-4">Hand-coded a responsive site for a photographer, increasing client inquiries by 20%.</p>
+                        <a href="#our-work" class="text-indigo-900 hover:underline">View More Projects</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
+                    <img src="https://img.freepik.com/free-psd/fashion-blog-landing-page-template_23-2149640128.jpg?ga=GA1.1.1937769153.1745503587&semt=ais_hybrid&w=740" alt="Blogger Website" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Blogger Website</h3>
+                        <p class="text-gray-600 mb-4">Custom-coded a blog with dynamic features, boosting reader engagement.</p>
+                        <a href="#our-work" class="text-indigo-900 hover:underline">View More Projects</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-gray-50" id="testimonials">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">What Our Clients Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="text-center bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-gray-600 italic mb-4">“My custom-coded portfolio was delivered in weeks and looks amazing! The team was super responsive.”</p>
+                    <p class="text-gray-900 font-semibold">Jane Doe</p>
+                    <p class="text-gray-500">Freelancer</p>
+                    <p class="text-yellow-400 mt-2">★★★★★</p>
+                </div>
+                <div class="text-center bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-gray-600 italic mb-4">“Pixel IT Solution’s coding expertise made my blog setup seamless. Highly recommend!”</p>
+                    <p class="text-gray-900 font-semibold">Mark Wilson</p>
+                    <p class="text-gray-500">Blogger</p>
+                    <p class="text-yellow-400 mt-2">★★★★★</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16" id="faq">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">How long does it take to build a custom-coded website?</h3>
+                    <p class="text-gray-600">Typically 2-5 weeks, depending on the number of pages and customization level.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Do I need coding skills to manage my site?</h3>
+                    <p class="text-gray-600">Basic HTML/CSS knowledge is helpful for updates, but we provide documentation and 30 days of free support.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Is hosting included in the price?</h3>
+                    <p class="text-gray-600">Hosting is separate, starting at $10/month. See our <a href="#pricing" class="text-indigo-900 hover:underline">Pricing</a> for details.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Can I upgrade my package later?</h3>
+                    <p class="text-gray-600">Yes, you can upgrade to add more pages or features at any time.</p>
+                </div>
+            </div>
+            <p class="text-center mt-6"><a href="faq.html" class="text-indigo-900 hover:underline">View All FAQs</a></p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16 bg-blue-900 text-white" id="contact">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <p class="uppercase text-sm text-gray-300 tracking-wider">Contact Us</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Start Your Coding Project Today</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="rounded-lg p-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Check Domain Availability</h3>
+                    <form id="domain-check-form" class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <input type="text" id="domain-input" placeholder="e.g., yourbusiness.com" class="bg-white text-black px-4 py-3 rounded-lg w-full sm:w-1/2" required aria-label="Enter domain name">
+                        <button type="submit" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500" aria-label="Check domain availability">Check</button>
+                    </form>
+                    <div id="loading" class="hidden text-center mt-4">
+                        <i class="fas fa-spinner fa-spin text-yellow-400"></i>
+                    </div>
+                    <p id="domain-result" class="text-center mt-4 text-gray-300"></p>
+                </div>
+                <div class="rounded-lg p-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Get in Touch</h3>
+                    <form action="https://api.web3forms.com/submit" method="POST" class="flex flex-col space-y-4">
+                        <input type="hidden" name="access_key" value="466386b6-7079-478c-b59b-ccc7bc4d4ddc">
+                        <input type="hidden" name="default_message" value="Inquiry from Pixel IT Solution website:">
+                        <input type="hidden" name="subject" value="Custom Website Inquiry">
+                        <input type="text" name="name" placeholder="Your Name" class="bg-white text-black px-4 py-3 rounded-lg" required aria-label="Your Name">
+                        <input type="email" name="email" placeholder="Email Address" class="bg-white text-black px-4 py-3 rounded-lg" required aria-label="Email Address">
+                        <textarea name="message" placeholder="Tell us about your project" rows="4" class="bg-white text-black px-4 py-3 rounded-lg" required aria-label="Project Details"></textarea>
+                        <button type="submit" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500" aria-label="Submit Contact Form">Submit Inquiry</button>
+                    </form>
+                    <p id="contact-result" class="text-center mt-4 text-gray-300"></p>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Domain Checker
+            const domainForm = document.getElementById('domain-check-form');
+            const domainInput = document.getElementById('domain-input');
+            const domainResult = document.getElementById('domain-result');
+            const loading = document.getElementById('loading');
+
+            domainForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const domain = domainInput.value.trim();
+                if (!domain.match(/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/)) {
+                    domainResult.textContent = 'Please enter a valid domain (e.g., yourbusiness.com)';
+                    return;
+                }
+
+                domainResult.textContent = '';
+                loading.classList.remove('hidden');
+                try {
+                    const response = await fetch(`http://localhost:3001/api/check-domain?domain=${encodeURIComponent(domain)}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const data = await response.json();
+
+                    if (data.error) {
+                        domainResult.innerHTML = `Error: ${data.error}. <a href="https://www.godaddy.com/domainsearch/find?domain=${encodeURIComponent(domain)}" target="_blank" class="text-yellow-400 hover:underline" aria-label="Check domain on GoDaddy">Try checking availability on GoDaddy</a>`;
+                    } else {
+                        domainResult.textContent = data.available
+                            ? `${domain} is available for registration!`
+                            : `${domain} is not available. Try another domain.`;
+                    }
+                } catch (error) {
+                    domainResult.innerHTML = `Error checking domain availability. <a href="https://www.godaddy.com/domainsearch/find?domain=${encodeURIComponent(domain)}" target="_blank" class="text-yellow-400 hover:underline" aria-label="Check domain on GoDaddy">Try checking availability on GoDaddy</a>`;
+                    console.error('Domain check error:', error);
+                } finally {
+                    loading.classList.add('hidden');
+                }
+            });
+
+            // Contact Form Submission
+            const contactForm = document.querySelector('form[action="https://api.web3forms.com/submit"]');
+            const contactResult = document.getElementById('contact-result');
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(contactForm);
+                try {
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        contactResult.textContent = 'Thank you! Your inquiry has been submitted.';
+                        contactForm.reset();
+                    } else {
+                        contactResult.textContent = 'Submission failed. Please try again.';
+                    }
+                } catch (error) {
+                    contactResult.textContent = 'An error occurred. Please try again later.';
+                }
+            });
+        </script>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="py-12 bg-indigo-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Custom-Coded Website?</h2>
+            <a href="#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500" aria-label="Get started with your custom website">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="text-2xl font-bold mb-4">Pixel IT Solution</div>
+                <p class="text-gray-300 mb-4">Build your dream website with our expert coding services.</p>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="#overview" class="text-gray-300 hover:text-yellow-400">Custom Web Development</a></li>
+                    <li><a href="#overview" class="text-gray-300 hover:text-yellow-400">Responsive Design</a></li>
+                    <li><a href="#overview" class="text-gray-300 hover:text-yellow-400">SEO Optimization</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#home" class="text-gray-300 hover:text-yellow-400">Home</a></li>
+                    <li><a href="#our-work" class="text-gray-300 hover:text-yellow-400">Our Work</a></li>
+                    <li><a href="#overview" class="text-gray-300 hover:text-yellow-400">Overview</a></li>
+                    <li><a href="#pricing" class="text-gray-300 hover:text-yellow-400">Pricing</a></li>
+                    <li><a href="#contact" class="text-gray-300 hover:text-yellow-400">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>123 Tech Lane, San Francisco, CA 94105</p>
+                <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i>support@pixelitsolution.com</p>
+                <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>+1-800-555-1234</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 inline-block mt-4">Get a Quote</a>
+            </div>
+        </div>
+        <div class="text-center text-gray-400 mt-8">
+            <p>© 2025 Pixel IT Solution. All Rights Reserved. | <a href="privacy-policy.html" class="hover:text-yellow-400">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/+85516700896" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition" aria-label="Contact us via WhatsApp">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- script for tracking visitor the webpage -->
+    <script src="./js/client.js"></script>
+</body>
+</html>

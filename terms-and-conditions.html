@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <meta name="description" content="Read the Terms and Conditions for Pixel IT Solution's web development and software services. Learn about our policies for payments, intellectual property, and more.">
+    <meta name="keywords" content="terms and conditions, Pixel IT Solution, web development, software development, business policies">
+    <title>Terms and Conditions - Pixel IT Solution</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Top Contact Bar -->
+    <div class="bg-gray-800 text-white py-2">
+        <div id="contact-bar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+            <!-- <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+                <span><i class="fas fa-phone mr-2"></i>Call: +1-800-555-1234</span>
+                <span><i class="fas fa-envelope mr-2"></i>Mail: support@pixelitsolution.com</span>
+            </div>
+            <div class="flex space-x-4 mt-2 sm:mt-0">
+                <a href="https://facebook.com" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                <a href="https://instagram.com" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" class="hover:text-blue-300"><i class="fab fa-twitter"></i></a>
+            </div> -->
+        </div>
+    </div>
+
+    <script>
+        // Base URL for API requests
+        const baseUrl = 'admin_dashboard/api/';
+        // Fetch contact information from the API
+        async function fetchContactInfo() {
+            try {
+                const response = await fetch(baseUrl + 'company_info.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching contact info:', error);
+                return null;
+            }
+        }
+
+        // Function to render contact bar
+        function renderContactBar(contactInfo) {
+            const contactBar = document.getElementById('contact-bar');
+            contactBar.innerHTML = `
+                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+                    <span><i class="fas fa-phone mr-2"></i>Call: ${contactInfo.phone}</span>
+                    <span><i class="fas fa-envelope mr-2"></i>Mail: ${contactInfo.email}</span>
+                </div>
+                <div class="flex space-x-4 mt-2 sm:mt-0">
+                    <a href="${contactInfo.facebook_url}" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="${contactInfo.youtube_url}" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                    <a href="${contactInfo.linkedin_url}" class="hover:text-blue-900"><i class="fab fa-linkedin"></i></a>
+                    <a href="${contactInfo.instagram_url}" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+                    <a href="${contactInfo.twitter_url}" class="hover:text-blue-300"><i class="fab fa-twitter"></i></a>
+                </div>
+
+                <!-- WhatsApp Button -->
+                <a href="https://wa.me/${contactInfo.whatsapp_number}" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition" aria-label="Contact us via WhatsApp">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                </a>
+                <!-- End WhatsApp Button -->
+            `;
+
+            const companyName = document.getElementById('company-name');
+            companyName.innerHTML = `
+                <a href="index.html" class="text-2xl font-bold text-blue-600">${contactInfo.company_name}</a>
+            `;
+
+            const companyNameFooter = document.getElementById('company-info-footer');
+            companyNameFooter.innerHTML = `
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>${contactInfo.address}</p>
+                <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i>${contactInfo.email}</p>
+                <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>${contactInfo.phone}</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 inline-block mt-4">Get a Quote</a>
+            `;
+
+            const companyNameFooter1 = document.getElementById('company-name-footer-1');
+            companyNameFooter1.innerHTML = `
+                ${contactInfo.company_name}
+            `;
+
+            const companyNameFooter2 = document.getElementById('company-name-footer-2');
+            companyNameFooter2.innerHTML = `
+                ${contactInfo.company_name}
+            `;
+
+            // Update WhatsApp button
+            // const whatsappButton = document.getElementById('whatsapp-button');
+            // whatsappButton.href = `https://wa.me/${contactInfo.whatsapp_number}`;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const contactInfo = await fetchContactInfo();
+            if (contactInfo) {
+                renderContactBar(contactInfo);
+            } else {
+                document.getElementById('contact-bar').innerHTML = '<p class="text-red-500">Error loading contact information.</p>';
+            }
+        });
+    </script>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div id="company-name" class="text-2xl font-bold text-blue-600"></div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-blue-600">Services</a>
+                <a href="index.html#portfolio" class="text-gray-600 hover:text-blue-600">Portfolio</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="index.html#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="index.html#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500">Get A Quote</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-sm">
+            <nav class="flex flex-col space-y-2 px-4 py-4">
+                <a href="index.html#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-blue-600">Services</a>
+                <a href="index.html#portfolio" class="text-gray-600 hover:text-blue-600">Portfolio</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="index.html#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="index.html#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+                <a href="index.html#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 text-left">Get A Quote</a>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+        // Toggle mobile menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-700 text-white py-12 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm mb-6 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.2s;">
+                <a href="index.html" class="text-gray-200 hover:text-yellow-400">Home</a> > 
+                <a href="terms-and-conditions.html" class="text-gray-200 hover:text-yellow-400">Terms and Conditions</a>
+            </nav>
+            <div class="text-center opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.4s;">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4">Terms and Conditions</h1>
+                <p class="text-gray-200 text-sm md:text-base mb-6">Understand the terms governing our web and software development services at Pixel IT Solution.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms and Conditions Content -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.6s;">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Our Terms and Conditions</h2>
+            <p class="text-gray-600 mb-6">Last Updated: April 27, 2025</p>
+            <div class="space-y-8 text-gray-600">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">1. Introduction</h3>
+                    <p>Welcome to Pixel IT Solution ("we," "us," or "our"). These Terms and Conditions ("Terms") govern the use of our services, including website development, software development, and related services (collectively, "Services"). By engaging with us, you ("Client," "you," or "your") agree to be bound by these Terms. If you do not agree, please do not use our Services.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">2. Services</h3>
+                    <p>We provide custom website and software development services, including but not limited to personal portfolios, business websites, e-commerce platforms, and custom software solutions. The scope, timeline, and deliverables for each project will be outlined in a separate agreement or proposal ("Project Agreement"). We reserve the right to refuse service at our discretion.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">3. Client Responsibilities</h3>
+                    <p>You agree to:</p>
+                    <ul class="list-disc pl-6">
+                        <li>Provide accurate and complete information, content, and materials required for the project (e.g., text, images, branding guidelines).</li>
+                        <li>Respond promptly to our requests for feedback or approvals to avoid delays.</li>
+                        <li>Ensure that any materials you provide do not infringe on third-party rights (e.g., copyrights, trademarks).</li>
+                        <li>Maintain the security of any accounts or credentials provided to you as part of the Services.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">4. Payment Terms</h3>
+                    <p>Our fees and payment schedules will be specified in the Project Agreement. Unless otherwise stated:</p>
+                    <ul class="list-disc pl-6">
+                        <li>A deposit (typically 50%) is required before work begins.</li>
+                        <li>Remaining payments are due upon completion of milestones or project delivery.</li>
+                        <li>Payments must be made within 7 days of invoicing via approved methods (e.g., bank transfer, credit card).</li>
+                        <li>Late payments may incur a 5% monthly interest charge.</li>
+                        <li>All fees are non-refundable unless explicitly agreed in writing.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">5. Intellectual Property</h3>
+                    <p>Upon full payment, you will own the intellectual property rights to the final deliverables (e.g., website design, software code), except for:</p>
+                    <ul class="list-disc pl-6">
+                        <li>Third-party tools, libraries, or assets licensed under separate terms (e.g., stock images, plugins).</li>
+                        <li>Our proprietary tools, frameworks, or code used in development, which remain our property.</li>
+                    </ul>
+                    <p>We retain the right to showcase the project in our portfolio unless otherwise agreed.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">6. Revisions and Changes</h3>
+                    <p>The Project Agreement will specify the number of revisions included. Additional revisions or changes outside the agreed scope may incur extra charges. We will notify you of any additional costs before proceeding.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">7. Project Timeline and Delays</h3>
+                    <p>We will strive to meet the timelines outlined in the Project Agreement. However, delays caused by your failure to provide timely feedback, content, or approvals may extend the timeline. We are not liable for delays beyond our control (e.g., third-party service outages).</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">8. Termination</h3>
+                    <p>Either party may terminate a project by providing written notice. If you terminate before completion, you are responsible for payment for all work completed up to the termination date. We may terminate the project if you breach these Terms (e.g., non-payment, failure to provide required materials).</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">9. Warranties and Liability</h3>
+                    <p>We warrant that our Services will be performed with reasonable care and skill. However:</p>
+                    <ul class="list-disc pl-6">
+                        <li>We do not guarantee that the Services will be error-free or uninterrupted.</li>
+                        <li>We are not liable for losses arising from your use of the Services, including lost profits, data, or business opportunities.</li>
+                        <li>Our total liability is limited to the amount paid for the Services.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">10. Confidentiality</h3>
+                    <p>We will treat all confidential information you provide (e.g., business plans, customer data) with care and not disclose it to third parties, except as required by law or with your consent.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">11. Dispute Resolution</h3>
+                    <p>Any disputes arising from these Terms or the Services will be resolved through good-faith negotiation. If unresolved, disputes will be governed by the laws of California and settled in the courts of San Francisco, CA.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">12. Changes to Terms</h3>
+                    <p>We may update these Terms from time to time. The updated Terms will be posted on our website, and continued use of our Services constitutes acceptance of the changes.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">13. Contact Us</h3>
+                    <p>If you have questions about these Terms, please contact us at:</p>
+                    <p class="text-gray-600 mb-2"><i class="fas fa-envelope mr-2"></i>support@pixelitsolution.com</p>
+                    <p class="text-gray-600"><i class="fas fa-phone mr-2"></i>+1-800-555-1234</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-blue-700 text-white text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.8s;">
+            <h2 class="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
+            <p class="text-gray-200 mb-6">Contact Pixel IT Solution for custom websites and software starting at $99.</p>
+            <a href="#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500 text-base transform transition-transform hover:scale-105">Get a Free Quote</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="text-2xl font-bold mb-4" id="company-name-footer-1">loading...</div>
+                <p class="text-gray-300 mb-4">Build your dream website with our expert web development services.</p>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">Web Development</a></li>
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">E-Commerce Solutions</a></li>
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">Software Engineering</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html#home" class="text-gray-300 hover:text-yellow-400">Home</a></li>
+                    <li><a href="index.html#portfolio" class="text-gray-300 hover:text-yellow-400">Portfolio</a></li>
+                    <li><a href="index.html#about" class="text-gray-300 hover:text-yellow-400">About</a></li>
+                    <li><a href="index.html#pricing" class="text-gray-300 hover:text-yellow-400">Pricing</a></li>
+                    <li><a href="index.html#contact" class="text-gray-300 hover:text-yellow-400">Contact</a></li>
+                    <li><a href="faq.html" class="text-gray-300 hover:text-yellow-400">FAQ</a></li>
+                </ul>
+            </div>
+            <div id="company-info-footer">
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>Loading...</p>
+                <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i>Loading...</p>
+                <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>Loading...</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 inline-block mt-4">Get a Quote</a>
+            </div>
+        </div>
+        <div class="text-center text-gray-400 mt-8">
+            <p>© 2025 <span id="company-name-footer-2">loading...</span>. All Rights Reserved. | <a href="terms-and-conditions.html" class="hover:text-yellow-400">Terms and Conditions</a> | <a href="privacy-policy.html" class="hover:text-yellow-400">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/+85516700896" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition" aria-label="Contact us via WhatsApp">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- script for tracking visitor the webpage -->
+    <script src="./js/client.js"></script>
+</body>
+</html>

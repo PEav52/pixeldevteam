@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <meta name="description" content="Get a custom-coded personal website with Pixel IT Solution. Affordable, responsive, and SEO-optimized portfolios starting at $79.">
+    <meta name="keywords" content="custom website, portfolio website, web development, Pixel IT Solution">
+    <title>Service Details - Pixel IT Solution</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Top Contact Bar -->
+    <div class="bg-gray-800 text-white py-2">
+        <div id="contact-bar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+            <!-- <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+                <span><i class="fas fa-phone mr-2"></i>Call: +1-800-555-1234</span>
+                <span><i class="fas fa-envelope mr-2"></i>Mail: support@pixelitsolution.com</span>
+            </div>
+            <div class="flex space-x-4 mt-2 sm:mt-0">
+                <a href="https://facebook.com" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                <a href="https://instagram.com" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" class="hover:text-blue-300"><i class="fab fa-twitter"></i></a>
+            </div> -->
+        </div>
+    </div>
+
+    <script>
+        // Base URL for API requests
+        const apiUrl = 'admin_dashboard/api/';
+        // Fetch contact information from the API
+        async function fetchContactInfo() {
+            try {
+                const response = await fetch(apiUrl + 'company_info.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching contact info:', error);
+                return null;
+            }
+        }
+
+        // Function to render contact bar
+        function renderContactBar(contactInfo) {
+            const contactBar = document.getElementById('contact-bar');
+            contactBar.innerHTML = `
+                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+                    <span><i class="fas fa-phone mr-2"></i>Call: ${contactInfo.phone}</span>
+                    <span><i class="fas fa-envelope mr-2"></i>Mail: ${contactInfo.email}</span>
+                </div>
+                <div class="flex space-x-4 mt-2 sm:mt-0">
+                    <a href="${contactInfo.facebook_url}" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="${contactInfo.youtube_url}" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                    <a href="${contactInfo.linkedin_url}" class="hover:text-blue-900"><i class="fab fa-linkedin"></i></a>
+                    <a href="${contactInfo.instagram_url}" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+                    <a href="${contactInfo.twitter_url}" class="hover:text-blue-300"><i class="fab fa-twitter"></i></a>
+                </div>
+
+                <!-- WhatsApp Button -->
+                <a href="https://wa.me/${contactInfo.whatsapp_number}" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition" aria-label="Contact us via WhatsApp">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                </a>
+                <!-- End WhatsApp Button -->
+            `;
+
+            const companyName = document.getElementById('company-name');
+            companyName.innerHTML = `
+                <a href="index.html" class="text-2xl font-bold text-blue-600">${contactInfo.company_name}</a>
+            `;
+
+            const companyNameFooter = document.getElementById('company-info-footer');
+            companyNameFooter.innerHTML = `
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>${contactInfo.address}</p>
+                <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i>${contactInfo.email}</p>
+                <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>${contactInfo.phone}</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 inline-block mt-4">Get a Quote</a>
+            `;
+
+            const companyNameFooter1 = document.getElementById('company-name-footer-1');
+            companyNameFooter1.innerHTML = `
+                ${contactInfo.company_name}
+            `;
+
+            const companyNameFooter2 = document.getElementById('company-name-footer-2');
+            companyNameFooter2.innerHTML = `
+                ${contactInfo.company_name}
+            `;
+
+            // Update WhatsApp button
+            // const whatsappButton = document.getElementById('whatsapp-button');
+            // whatsappButton.href = `https://wa.me/${contactInfo.whatsapp_number}`;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const contactInfo = await fetchContactInfo();
+            if (contactInfo) {
+                renderContactBar(contactInfo);
+            } else {
+                document.getElementById('contact-bar').innerHTML = '<p class="text-red-500">Error loading contact information.</p>';
+            }
+        });
+    </script>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div id="company-name" class="text-2xl font-bold text-blue-600"></div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-blue-600">Services</a>
+                <a href="index.html#portfolio" class="text-gray-600 hover:text-blue-600">Portfolio</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="index.html#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="index.html#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500">Get A Quote</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-sm">
+            <nav class="flex flex-col space-y-2 px-4 py-4">
+                <a href="index.html#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-blue-600">Services</a>
+                <a href="index.html#portfolio" class="text-gray-600 hover:text-blue-600">Portfolio</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="index.html#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="index.html#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+                <a href="index.html#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 text-left">Get A Quote</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-700 text-white py-12 md:py-20" id="home">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 text-center md:text-left opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.2s;">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4" id="service-title">Loading...</h1>
+                <p class="text-gray-200 text-sm md:text-base mb-6" id="service-description">Fetching service details...</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500 text-sm md:text-base transform transition-transform hover:scale-105" aria-label="Get a free quote">Get a Free Quote</a>
+                <p class="text-gray-300 text-sm mt-4" id="service-price">Starting at $79 | Trusted by 100+ clients</p>
+            </div>
+            <div class="md:w-1/2 mt-6 md:mt-0 flex justify-center opacity-0 animate-slideIn" style="animation: slideIn 1s forwards 0.4s;">
+                <img id="service-image" src="images/personal-data-71.svg" alt="Service Image" class="rounded-lg w-full max-w-xs md:max-w-none">
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Overview -->
+    <section class="py-16" id="overview">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">Service Overview</h2>
+            <div id="overview-content">
+                <p class="text-gray-600 mb-4">Loading service details...</p>
+            </div>
+            <p class="text-gray-600 text-sm">*Domain name and hosting server are not included and must be purchased separately. See our <a href="#pricing" class="text-blue-600 font-semibold hover:underline">Pricing</a> for details.</p>
+        </div>
+    </section>
+
+    <!-- What's Included -->
+    <section class="py-16 bg-gray-50" id="included">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">What’s Included</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="features-content">
+                <p class="text-gray-600">Loading features...</p>
+            </div>
+            <p class="text-gray-600 text-sm mt-6">*Domain name and hosting server are not included and must be purchased separately. See our <a href="#pricing" class="text-blue-600 font-semibold hover:underline">Pricing</a> for details.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Breakdown -->
+    <section class="py-16" id="pricing">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">Pricing Breakdown</h2>
+            <p class="text-gray-600 mb-6" id="pricing-description">Loading pricing details...</p>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Packages</h3>
+                <ul class="text-gray-600 space-y-4" id="pricing-packages">
+                    <li class="text-gray-600">Loading packages...</li>
+                </ul>
+                <a href="#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500 inline-block mt-6" aria-label="Get a custom quote">Get a Custom Quote</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-16 bg-gray-50" id="process">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <p class="uppercase text-sm text-gray-500 tracking-wider">Our Process</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-900">How We Work</h2>
+            </div>
+            <div id="processing-steps" class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Steps will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Our work Section -->
+    <section class="py-16 bg-gray-50" id="portfolio">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <p class="uppercase text-sm text-gray-500 tracking-wider">Our Work</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-900">Explore Our Projects</h2>
+            </div>
+
+            <!-- Project Cards -->
+            <div id="projectCards" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-8">
+                <button id="loadMoreBtn" class="bg-indigo-900 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition">Load More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-gray-50" id="testimonials">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">What Our Clients Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="text-center bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-gray-600 italic mb-4">“My custom-coded portfolio was delivered in weeks and looks amazing! The team was super responsive.”</p>
+                    <p class="text-gray-900 font-semibold">Jane Doe</p>
+                    <p class="text-gray-500">Freelancer</p>
+                    <p class="text-yellow-400 mt-2">★★★★★</p>
+                </div>
+                <div class="text-center bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-gray-600 italic mb-4">“Pixel IT Solution’s coding expertise made my blog setup seamless. Highly recommend!”</p>
+                    <p class="text-gray-900 font-semibold">Mark Wilson</p>
+                    <p class="text-gray-500">Blogger</p>
+                    <p class="text-yellow-400 mt-2">★★★★★</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16 bg-blue-900 text-white" id="contact">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <p class="uppercase text-sm text-gray-300 tracking-wider">Contact Us</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Start Your Coding Project Today</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="rounded-lg p-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Check Domain Availability</h3>
+                    <form id="domain-check-form" class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <input type="text" id="domain-input" placeholder="e.g., yourbusiness.com" class="bg-white text-black px-4 py-3 rounded-lg w-full sm:w-1/2" required aria-label="Enter domain name">
+                        <button type="submit" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500" aria-label="Check domain availability">Check</button>
+                    </form>
+                    <div id="loading" class="hidden text-center mt-4">
+                        <i class="fas fa-spinner fa-spin text-yellow-400"></i>
+                    </div>
+                    <p id="domain-result" class="text-center mt-4 text-gray-300"></p>
+                </div>
+                <div class="rounded-lg p-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Get in Touch</h3>
+                    <form action="https://api.web3forms.com/submit" method="POST" class="flex flex-col space-y-4">
+                        <input type="hidden" name="access_key" value="466386b6-7079-478c-b59b-ccc7bc4d4ddc">
+                        <input type="hidden" name="default_message" id="default-message" value="Inquiry from Pixel IT Solution website:">
+                        <input type="hidden" name="subject" value="Custom Website Inquiry">
+                        <input type="text" name="name" placeholder="Your Name" class="bg-white text-black px-4 py-3 rounded-lg" required aria-label="Your Name">
+                        <input type="email" name="email" placeholder="Email Address" class="bg-white text-black px-4 py-3 rounded-lg" required aria-label="Email Address">
+                        <textarea name="message" placeholder="Tell us about your project" rows="4" class="bg-white text-black px-4 py-3 rounded-lg" required aria-label="Project Details"></textarea>
+                        <button type="submit" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500" aria-label="Submit Contact Form">Submit Inquiry</button>
+                    </form>
+                    <p id="contact-result" class="text-center mt-4 text-gray-300"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <!-- <section class="py-12 bg-indigo-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Custom-Coded Website?</h2>
+            <a href="#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500" aria-label="Get started with your custom website">Get Started Today</a>
+        </div>
+    </section> -->
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="text-2xl font-bold mb-4" id="company-name-footer-1">loading...</div>
+                <p class="text-gray-300 mb-4">Build your dream website with our expert web development services.</p>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">Web Development</a></li>
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">E-Commerce Solutions</a></li>
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">Software Engineering</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html#home" class="text-gray-300 hover:text-yellow-400">Home</a></li>
+                    <li><a href="index.html#portfolio" class="text-gray-300 hover:text-yellow-400">Portfolio</a></li>
+                    <li><a href="index.html#about" class="text-gray-300 hover:text-yellow-400">About</a></li>
+                    <li><a href="index.html#pricing" class="text-gray-300 hover:text-yellow-400">Pricing</a></li>
+                    <li><a href="index.html#contact" class="text-gray-300 hover:text-yellow-400">Contact</a></li>
+                    <li><a href="faq.html" class="text-gray-300 hover:text-yellow-400">FAQ</a></li>
+                </ul>
+            </div>
+            <div id="company-info-footer">
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>Loading...</p>
+                <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i>Loading...</p>
+                <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>Loading...</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 inline-block mt-4">Get a Quote</a>
+            </div>
+        </div>
+        <div class="text-center text-gray-400 mt-8">
+            <p>© 2025 <span id="company-name-footer-2">loading...</span>. All Rights Reserved. | <a href="terms-and-conditions.html" class="hover:text-yellow-400">Terms and Conditions</a> | <a href="privacy-policy.html" class="hover:text-yellow-400">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/+85516700896" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition" aria-label="Contact us via WhatsApp">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="./js/client.js"></script>
+    <script>
+        // Toggle mobile menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Function to escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Function to fetch and display service details
+        async function loadServiceDetails() {
+            // Get service_id from URL query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const serviceId = urlParams.get('id');
+
+            if (!serviceId) {
+                document.getElementById('service-title').textContent = 'Error: No Service ID';
+                document.getElementById('service-description').textContent = 'Please provide a valid service ID.';
+                document.getElementById('overview-content').innerHTML = '<p class="text-red-600">Error: No service ID provided.</p>';
+                document.getElementById('features-content').innerHTML = '<p class="text-gray-600">No features available.</p>';
+                document.getElementById('pricing-packages').innerHTML = '<li class="text-gray-600">No pricing packages available.</li>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`admin_dashboard/api/services.php?method=GET&id=${encodeURIComponent(serviceId)}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                // console.log('API Response:', data);
+
+                if (data && typeof data === 'object' && !data.error) {
+                    // Update Hero Section
+                    document.getElementById('service-title').textContent = data.title || 'Service Details';
+                    document.getElementById('service-description').textContent = data.description || 'No description available.';
+                    document.getElementById('service-price').textContent = `Starting at $${data.min_price || '79'} | Trusted by 100+ clients`;
+                    document.getElementById('service-image').src = 'admin_dashboard/' + (data.image_url || 'images/personal-data-71.svg');
+                    document.getElementById('service-image').alt = data.title || 'Service Image';
+
+                    // Service title in contact form
+                    const defaultMessage = document.getElementById('default-message');
+                    if (defaultMessage) {
+                        defaultMessage.value = `Inquiry from Pixel IT Solution website: ${data.title || 'Service Details'}`;
+                    }
+
+                    // Update Overview Section
+                    document.getElementById('overview-content').innerHTML = `
+                        <p class="text-gray-600 mb-4">${escapeHtml(data.description || 'No description available.')}</p>
+                        <p class="text-gray-600 mb-6">${escapeHtml(data.overview || 'Custom-coded service tailored to your needs.')}</p>
+                    `;
+
+                    // Update What's Included Section
+                    const featuresContent = document.getElementById('features-content');
+                    if (data.features && Array.isArray(data.features) && data.features.length > 0) {
+                        featuresContent.innerHTML = data.features.map(feature => `
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-yellow-400 text-2xl mr-4"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">${escapeHtml(feature.name || 'Feature')}</h3>
+                                    <p class="text-gray-600">${escapeHtml(feature.description || 'No description.')}</p>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        featuresContent.innerHTML = '<p class="text-gray-600">No features available for this service.</p>';
+                    }
+
+                    // Update Pricing Breakdown Section
+                    document.getElementById('pricing-description').textContent = `Pricing ranges from $${data.min_price || '79'} to $${data.max_price || '299'}, depending on customization.`;
+                    const pricingPackages = document.getElementById('pricing-packages');
+                    if (data.pricing_packages && Array.isArray(data.pricing_packages) && data.pricing_packages.length > 0) {
+                        pricingPackages.innerHTML = data.pricing_packages.map(package => `
+                            <li class="flex justify-between items-center">
+                                <span>${escapeHtml(package.title || 'Package')}</span>
+                                <span class="font-bold">$${escapeHtml(package.price || '0')}</span>
+                            </li>
+                        `).join('');
+                    } else {
+                        pricingPackages.innerHTML = '<li class="text-gray-600">No pricing packages available.</li>';
+                    }
+                } else {
+                    const errorMessage = data.error || 'Service not found';
+                    document.getElementById('service-title').textContent = 'Error';
+                    document.getElementById('service-description').textContent = errorMessage;
+                    document.getElementById('overview-content').innerHTML = `<p class="text-red-600">Error: ${escapeHtml(errorMessage)}</p>`;
+                    document.getElementById('features-content').innerHTML = '<p class="text-gray-600">No features available.</p>';
+                    document.getElementById('pricing-packages').innerHTML = '<li class="text-gray-600">No pricing packages available.</li>';
+                }
+            } catch (error) {
+                console.error('Error fetching service details:', error);
+                document.getElementById('service-title').textContent = 'Error';
+                document.getElementById('service-description').textContent = 'Failed to load service details.';
+                document.getElementById('overview-content').innerHTML = `<p class="text-red-600">Error: ${escapeHtml(error.message)}</p>`;
+                document.getElementById('features-content').innerHTML = '<p class="text-gray-600">No features available.</p>';
+                document.getElementById('pricing-packages').innerHTML = '<li class="text-gray-600">No pricing packages available.</li>';
+            }
+
+            // Load projects for this service
+            await loadProjects(serviceId);
+        }
+
+        // Load more projects on button click
+        let currentIndex = 0;
+        const projectsPerLoad = 3;
+        let allProjects = [];
+
+        // Function to fetch projects from the API
+        async function fetchProjects(serviceId) {
+            try {
+                const response = await fetch(`admin_dashboard/api/projects.php?method=GET&service_id=${encodeURIComponent(serviceId)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return Array.isArray(data) ? data.filter(project => project.is_visible !== 0) : [];
+            } catch (error) {
+                console.error('Error fetching projects:', error);
+                return [];
+            }
+        }
+
+        // Function to render project cards
+        function renderProjectCards(projects, append = true) {
+            const projectCards = document.getElementById('projectCards');
+
+            // Clear cards only if not appending (initial load)
+            if (!append) {
+                projectCards.innerHTML = '';
+            }
+
+            if (projects.length === 0 && projectCards.innerHTML === '') {
+                projectCards.innerHTML = '<p class="text-gray-600 col-span-3 text-center">No projects available for this service.</p>';
+                document.getElementById('loadMoreBtn').style.display = 'none';
+                return;
+            }
+
+            projects.forEach(project => {
+                // Use a default image if image_url is null or invalid
+                const imageUrl = project.image_url ? project.image_url : 'images/placeholder.svg';
+
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105';
+                card.innerHTML = `
+                    <img src="admin_dashboard/${imageUrl}" alt="${escapeHtml(project.title)}" class="w-full h-48 object-cover" onerror="this.src='images/placeholder.svg'">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${escapeHtml(project.title)}</h3>
+                        <p class="text-gray-600 mb-2">${escapeHtml(project.description)}</p>
+                        <a href="project-details.html?id=${project.project_id}" class="text-indigo-900 hover:underline">View Details</a>
+                    </div>
+                `;
+                projectCards.appendChild(card);
+            });
+        }
+
+        // Function to load more projects
+        function loadMoreProjects() {
+            const nextProjects = allProjects.slice(currentIndex, currentIndex + projectsPerLoad);
+            renderProjectCards(nextProjects, true); // Append new projects
+            currentIndex += projectsPerLoad;
+
+            // Hide button if no more projects to load
+            if (currentIndex >= allProjects.length) {
+                document.getElementById('loadMoreBtn').style.display = 'none';
+            } else {
+                document.getElementById('loadMoreBtn').style.display = 'block';
+            }
+        }
+
+        // Initialize projects on page load
+        async function loadProjects(serviceId) {
+            // Fetch projects for the specific service
+            allProjects = await fetchProjects(serviceId);
+
+            // Reset currentIndex
+            currentIndex = 0;
+
+            // Render initial set of projects
+            renderProjectCards(allProjects.slice(0, projectsPerLoad), false); // Initial load, clear cards
+            currentIndex += projectsPerLoad;
+
+            // Update Load More button visibility
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (allProjects.length <= projectsPerLoad) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+                loadMoreBtn.removeEventListener('click', loadMoreProjects); // Remove any existing listeners
+                loadMoreBtn.addEventListener('click', loadMoreProjects);
+            }
+        }
+
+        // Load service details and projects on page load
+        window.addEventListener('DOMContentLoaded', loadServiceDetails);
+
+
+
+
+        // Domain Checker
+        const domainForm = document.getElementById('domain-check-form');
+        const domainInput = document.getElementById('domain-input');
+        const domainResult = document.getElementById('domain-result');
+        const loading = document.getElementById('loading');
+
+        domainForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const domain = domainInput.value.trim();
+            if (!domain.match(/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/)) {
+                domainResult.textContent = 'Please enter a valid domain (e.g., yourbusiness.com)';
+                return;
+            }
+
+            domainResult.textContent = '';
+            loading.classList.remove('hidden');
+            try {
+                const response = await fetch(`http://localhost:3001/api/check-domain?domain=${encodeURIComponent(domain)}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+
+                if (data.error) {
+                    domainResult.innerHTML = `Error: ${data.error}. <a href="https://www.godaddy.com/domainsearch/find?domain=${encodeURIComponent(domain)}" target="_blank" class="text-yellow-400 hover:underline" aria-label="Check domain on GoDaddy">Try checking availability on GoDaddy</a>`;
+                } else {
+                    domainResult.textContent = data.available
+                        ? `${domain} is available for registration!`
+                        : `${domain} is not available. Try another domain.`;
+                }
+            } catch (error) {
+                domainResult.innerHTML = `Error checking domain availability. <a href="https://www.godaddy.com/domainsearch/find?domain=${encodeURIComponent(domain)}" target="_blank" class="text-yellow-400 hover:underline" aria-label="Check domain on GoDaddy">Try checking availability on GoDaddy</a>`;
+                console.error('Domain check error:', error);
+            } finally {
+                loading.classList.add('hidden');
+            }
+        });
+
+        // Contact Form Submission
+        const contactForm = document.querySelector('form[action="https://api.web3forms.com/submit"]');
+        const contactResult = document.getElementById('contact-result');
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(contactForm);
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    contactResult.textContent = 'Thank you! Your inquiry has been submitted.';
+                    contactForm.reset();
+                } else {
+                    contactResult.textContent = 'Submission failed. Please try again.';
+                }
+            } catch (error) {
+                contactResult.textContent = 'An error occurred. Please try again later.';
+            }
+        });
+
+        // Base URL for API requests
+        const baseUrl = 'admin_dashboard/api/'; // Update with your actual API base URL
+
+        // Function to fetch steps from the API
+        async function fetchSteps() {
+            try {
+                const response = await fetch(baseUrl + 'step.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching processing step data:', error);
+                return [];
+            }
+        }
+
+        // Function to render steps
+        function renderSteps(steps) {
+            const stepsContainer = document.getElementById('processing-steps');
+
+            // Check if container exists
+            if (!stepsContainer) {
+                console.error('Element with ID "processing-steps" not found');
+                return;
+            }
+
+            // Clear existing content
+            stepsContainer.innerHTML = '';
+
+            // Filter visible steps and sort by display_order
+            const visibleSteps = steps
+                .filter(step => step.is_visible === 1)
+                .sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+
+            // Render each step
+            visibleSteps.forEach((step, index) => {
+                const card = document.createElement('div');
+                card.className = 'text-center';
+                card.innerHTML = `
+                    <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-900 font-bold">${step.step_number || (index + 1)}</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">${step.title}</h3>
+                    <p class="text-gray-600">${step.description}</p>
+                `;
+                stepsContainer.appendChild(card);
+            });
+
+            // Display error message if no visible steps
+            if (visibleSteps.length === 0) {
+                stepsContainer.innerHTML = '<p class="text-red-500 col-span-full text-center">No steps available to display.</p>';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Fetch all steps
+            const steps = await fetchSteps();
+            renderSteps(steps);
+        });
+    </script>
+</body>
+</html>

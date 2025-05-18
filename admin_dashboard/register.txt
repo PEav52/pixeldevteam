@@ -1,0 +1,196 @@
+<?php
+session_start();
+
+// Database configuration
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'pixel_it_solution');
+
+// Connect to database
+try {
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+
+// Generate CSRF token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Function to generate unique user ID
+function generateUniqueUserId($pdo) {
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $maxAttempts = 10;
+    $attempt = 0;
+
+    while ($attempt < $maxAttempts) {
+        // Generate ID: 2 letters + timestamp + 4 random chars
+        $prefix = substr(str_shuffle($characters), 0, 2);
+        $timestamp = microtime(true) * 10000; // High-resolution timestamp
+        $random = '';
+        for ($i = 0; $i < 4; $i++) {
+            $random .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $userId = $prefix . substr($timestamp, -6) . $random;
+
+        // Check if ID exists
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        if ($stmt->fetchColumn() == 0) {
+            return $userId;
+        }
+        $attempt++;
+    }
+    
+    throw new Exception("Unable to generate unique user ID after $maxAttempts attempts");
+}
+
+// Handle registration
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
+    // Verify CSRF token
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        $error = "Invalid CSRF token";
+    } else {
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
+        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
+
+        // Input validation
+        if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
+            $error = "All fields are required";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = "Invalid email format";
+        } elseif (strlen($password) < 8) {
+            $error = "Password must be at least 8 characters long";
+        } elseif ($password !== $confirm_password) {
+            $error = "Passwords do not match";
+        } elseif (!in_array($role, ['user', 'admin'])) {
+            $error = "Invalid role selected";
+        } else {
+            try {
+                // Check if username or email already exists
+                $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ? OR email = ?");
+                $stmt->execute([$username, $email]);
+                if ($stmt->fetchColumn() > 0) {
+                    $error = "Username or email already exists";
+                } else {
+                    // Generate unique user ID
+                    $userId = generateUniqueUserId($pdo);
+                    
+                    // Hash password
+                    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+                    
+                    // Insert new user
+                    $stmt = $pdo->prepare("INSERT INTO users (user_id, username, email, password_hash, role, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+                    $stmt->execute([$userId, $username, $email, $passwordHash, $role]);
+                    
+                    // Redirect to login page
+                    header("Location: login_system.php?registered=success");
+                    exit;
+                }
+            } catch (Exception $e) {
+                $error = "Registration failed: " . $e->getMessage();
+            }
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F0F2F5;
+        }
+        .register-container {
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .error {
+            color: red;
+            margin-bottom: 1rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0087BF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #006B9F;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Register</h2>
+        <?php if (isset($error)): ?>
+            <div class="error"><?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <div>
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" name="register">Register</button>
+        </form>
+        <div class="login-link">
+            <p>Already have an account? <a href="login_system.php">Login here</a></p>
+        </div>
+    </div>
+</body>
+</html>

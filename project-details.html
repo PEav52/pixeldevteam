@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <meta name="description" content="Discover the details of our projects by Pixel IT Solution.">
+    <meta name="keywords" content="web development, portfolio, Pixel IT Solution, responsive design">
+    <title>Project Details - Pixel IT Solution</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<div class="font-sans">
+     <!-- Top Contact Bar -->
+    <div class="bg-gray-800 text-white py-2">
+        <div id="contact-bar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+            <!-- <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+                <span><i class="fas fa-phone mr-2"></i>Call: +1-800-555-1234</span>
+                <span><i class="fas fa-envelope mr-2"></i>Mail: support@pixelitsolution.com</span>
+            </div>
+            <div class="flex space-x-4 mt-2 sm:mt-0">
+                <a href="https://facebook.com" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                <a href="https://instagram.com" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" class="hover:text-blue-300"><i class="fab fa-twitter"></i></a>
+            </div> -->
+        </div>
+    </div>
+
+    <script>
+        // Base URL for API requests
+        const apiUrl = 'admin_dashboard/api/';
+        // Fetch contact information from the API
+        async function fetchContactInfo() {
+            try {
+                const response = await fetch(apiUrl + 'company_info.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching contact info:', error);
+                return null;
+            }
+        }
+
+        // Function to render contact bar
+        function renderContactBar(contactInfo) {
+            const contactBar = document.getElementById('contact-bar');
+            contactBar.innerHTML = `
+                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+                    <span><i class="fas fa-phone mr-2"></i>Call: ${contactInfo.phone}</span>
+                    <span><i class="fas fa-envelope mr-2"></i>Mail: ${contactInfo.email}</span>
+                </div>
+                <div class="flex space-x-4 mt-2 sm:mt-0">
+                    <a href="${contactInfo.facebook_url}" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="${contactInfo.youtube_url}" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                    <a href="${contactInfo.linkedin_url}" class="hover:text-blue-900"><i class="fab fa-linkedin"></i></a>
+                    <a href="${contactInfo.instagram_url}" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+                    <a href="${contactInfo.twitter_url}" class="hover:text-blue-300"><i class="fab fa-twitter"></i></a>
+                </div>
+
+                <!-- WhatsApp Button -->
+                <a href="https://wa.me/${contactInfo.whatsapp_number}" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition" aria-label="Contact us via WhatsApp">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                </a>
+                <!-- End WhatsApp Button -->
+            `;
+
+            const companyName = document.getElementById('company-name');
+            companyName.innerHTML = `
+                <a href="index.html" class="text-2xl font-bold text-blue-600">${contactInfo.company_name}</a>
+            `;
+
+            const companyNameFooter = document.getElementById('company-info-footer');
+            companyNameFooter.innerHTML = `
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>${contactInfo.address}</p>
+                <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i>${contactInfo.email}</p>
+                <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>${contactInfo.phone}</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 inline-block mt-4">Get a Quote</a>
+            `;
+
+            const companyNameFooter1 = document.getElementById('company-name-footer-1');
+            companyNameFooter1.innerHTML = `
+                ${contactInfo.company_name}
+            `;
+
+            const companyNameFooter2 = document.getElementById('company-name-footer-2');
+            companyNameFooter2.innerHTML = `
+                ${contactInfo.company_name}
+            `;
+
+            // Update WhatsApp button
+            // const whatsappButton = document.getElementById('whatsapp-button');
+            // whatsappButton.href = `https://wa.me/${contactInfo.whatsapp_number}`;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const contactInfo = await fetchContactInfo();
+            if (contactInfo) {
+                renderContactBar(contactInfo);
+            } else {
+                document.getElementById('contact-bar').innerHTML = '<p class="text-red-500">Error loading contact information.</p>';
+            }
+        });
+    </script>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div id="company-name" class="text-2xl font-bold text-blue-600"></div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-blue-600">Services</a>
+                <a href="index.html#portfolio" class="text-gray-600 hover:text-blue-600">Portfolio</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="index.html#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="index.html#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="index.html#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500">Get A Quote</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-sm">
+            <nav class="flex flex-col space-y-2 px-4 py-4">
+                <a href="index.html#home" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-blue-600">Services</a>
+                <a href="index.html#portfolio" class="text-gray-600 hover:text-blue-600">Portfolio</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="index.html#process" class="text-gray-600 hover:text-blue-600">Process</a>
+                <a href="index.html#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-blue-600">Contact</a>
+                <a href="index.html#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 text-left">Get A Quote</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-700 text-white py-12 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm mb-6 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.2s;">
+                <a href="index.html" class="text-gray-200 hover:text-yellow-400">Home</a> > 
+                <a href="index.html#portfolio" class="text-gray-200 hover:text-yellow-400">Portfolio</a> > <span id="project-title-breadcrumb">Project</span>
+            </nav>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 text-center md:text-left opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.4s;">
+                    <h1 id="project-title" class="text-3xl md:text-5xl font-bold mb-4">Loading...</h1>
+                    <p id="project-description" class="text-gray-200 text-sm md:text-base mb-6">Loading project details...</p>
+                    <a href="index.html#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500 text-sm md:text-base transform transition-transform hover:scale-105" aria-label="Get a free quote">Get a Free Quote</a>
+                    <p id="project-meta" class="text-gray-300 text-sm mt-4">Loading pricing and timeline...</p>
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0 flex justify-center opacity-0 animate-slideIn" style="animation: slideIn 1s forwards 0.6s;">
+                    <img id="project-image" src="images/placeholder.png" alt="Project Image" class="rounded-lg w-full max-w-xs md:max-w-none">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 0.8s;">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4 text-center">Project Overview</h2>
+            <p id="project-overview" class="text-gray-600 mb-6 text-center">Loading project overview...</p>
+            <div id="project-features" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Features will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Details -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 1s;">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4 text-center">Technical Details</h2>
+            <p class="text-gray-600 mb-6 text-center">Built with modern technologies to ensure performance, accessibility, and scalability.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Technologies Used</h3>
+                    <ul id="project-technologies" class="list-disc pl-6 text-gray-600">
+                        <li>Loading technologies...</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Development Process</h3>
+                    <p id="project-process" class="text-gray-600">Loading development process...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Showcase -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 1.2s;">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4 text-center">Visual Showcase</h2>
+            <p class="text-gray-600 mb-6 text-center">Explore the design and functionality of the project.</p>
+            <div id="project-assets" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Assets will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 1.4s;">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4 text-center">Results & Impact</h2>
+            <p class="text-gray-600 mb-6 text-center">The project delivered measurable results for our client.</p>
+            <div id="project-results" class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <!-- Results will be dynamically inserted here -->
+            </div>
+            <blockquote id="client-quote" class="border-l-4 border-yellow-400 pl-4 italic text-gray-600 mt-8 max-w-2xl mx-auto hidden">
+                Loading client quote...
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-blue-700 text-white text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn" style="animation: fadeIn 1s forwards 1.6s;">
+            <h2 class="text-3xl font-bold mb-4">Ready to Build Your Own Project?</h2>
+            <p class="text-gray-200 mb-6">Let Pixel IT Solution create a stunning solution for you.</p>
+            <a href="index.html#contact" class="bg-yellow-400 text-black px-6 py-3 rounded-full hover:bg-yellow-500 text-base transform transition-transform hover:scale-105">Get a Free Quote</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="text-2xl font-bold mb-4" id="company-name-footer-1">loading...</div>
+                <p class="text-gray-300 mb-4">Build your dream website with our expert web development services.</p>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">Web Development</a></li>
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">E-Commerce Solutions</a></li>
+                    <li><a href="/index.html#services" class="text-gray-300 hover:text-yellow-400">Software Engineering</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html#home" class="text-gray-300 hover:text-yellow-400">Home</a></li>
+                    <li><a href="index.html#portfolio" class="text-gray-300 hover:text-yellow-400">Portfolio</a></li>
+                    <li><a href="index.html#about" class="text-gray-300 hover:text-yellow-400">About</a></li>
+                    <li><a href="index.html#pricing" class="text-gray-300 hover:text-yellow-400">Pricing</a></li>
+                    <li><a href="index.html#contact" class="text-gray-300 hover:text-yellow-400">Contact</a></li>
+                    <li><a href="faq.html" class="text-gray-300 hover:text-yellow-400">FAQ</a></li>
+                </ul>
+            </div>
+            <div id="company-info-footer">
+                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                <p class="text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>Loading...</p>
+                <p class="text-gray-300 mb-2"><i class="fas fa-envelope mr-2"></i>Loading...</p>
+                <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>Loading...</p>
+                <a href="#contact" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-500 inline-block mt-4">Get a Quote</a>
+            </div>
+        </div>
+        <div class="text-center text-gray-400 mt-8">
+            <p>© 2025 <span id="company-name-footer-2">loading...</span>. All Rights Reserved. | <a href="terms-and-conditions.html" class="hover:text-yellow-400">Terms and Conditions</a> | <a href="privacy-policy.html" class="hover:text-yellow-400">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for fetching project data -->
+    <script>
+        // Toggle mobile menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // base api url
+        const baseUrl = 'admin_dashboard/api/';
+
+        // Get project ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('id');
+
+        // Function to fetch project data
+        async function fetchProjectData() {
+            if (!projectId) {
+                displayError('Project ID is missing from the URL.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${baseUrl}projects.php?method=GET&id=${projectId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const project = await response.json();
+
+                if (project.error) {
+                    throw new Error(project.error);
+                }
+
+                // Update page content
+                updatePageContent(project);
+
+            } catch (error) {
+                console.error('Error fetching project:', error);
+                displayError(`Failed to load project data: ${error.message}`);
+            }
+        }
+
+        // Function to update page content with project data
+        function updatePageContent(project) {
+            // Update meta tags
+            document.querySelector('meta[name="description"]').setAttribute('content', project.description || 'Discover the details of our projects by Pixel IT Solution.');
+            document.querySelector('meta[name="keywords"]').setAttribute('content', `${project.title}, web development, portfolio, Pixel IT Solution, responsive design`);
+            document.title = `${project.title} - Project Details - Pixel IT Solution`;
+
+            // Hero Section
+            document.getElementById('project-title').textContent = project.title || 'Project';
+            document.getElementById('project-title-breadcrumb').textContent = project.title || 'Project';
+            document.getElementById('project-description').textContent = project.description || 'No description available.';
+            document.getElementById('project-image').src = 'admin_dashboard/' + project.image_url || 'images/placeholder.png';
+            document.getElementById('project-image').alt = `Image of ${project.title || 'project'}`;
+            document.getElementById('project-meta').textContent = project.is_visible ? 'Visible Project | Contact for Pricing' : 'Hidden Project | Contact for Pricing';
+
+            // Project Overview
+            document.getElementById('project-overview').textContent = project.overview || 'No overview available.';
+            const featuresContainer = document.getElementById('project-features');
+            featuresContainer.innerHTML = '';
+            if (project.features && project.features.length > 0) {
+                project.features.forEach(feature => {
+                    const featureDiv = document.createElement('div');
+                    featureDiv.className = 'text-center';
+                    featureDiv.innerHTML = `
+                        <i class="fas fa-star text-4xl text-blue-600 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${feature.p_feature_name || 'Feature'}</h3>
+                        <p class="text-gray-600">${feature.p_feature_description || 'No description'}</p>
+                    `;
+                    featuresContainer.appendChild(featureDiv);
+                });
+            } else {
+                featuresContainer.innerHTML = '<p class="text-center text-gray-600 col-span-3">No features available.</p>';
+            }
+
+            // Technical Details
+            const techContainer = document.getElementById('project-technologies');
+            techContainer.innerHTML = '';
+            if (project.technologies && project.technologies.length > 0) {
+                project.technologies.forEach(tech => {
+                    const li = document.createElement('li');
+                    li.textContent = tech.technology_name || 'Technology';
+                    techContainer.appendChild(li);
+                });
+            } else {
+                techContainer.innerHTML = '<li>No technologies listed.</li>';
+            }
+            document.getElementById('project-process').textContent = project.development_process || 'No development process details available.';
+
+            // Visual Showcase
+            const assetsContainer = document.getElementById('project-assets');
+            assetsContainer.innerHTML = '';
+            if (project.assets && project.assets.length > 0) {
+                project.assets.forEach(asset => {
+                    const img = document.createElement('img');
+                    img.src = 'admin_dashboard/' + asset.image_url || 'images/placeholder.png';
+                    img.alt = asset.alt_text || 'Project Asset';
+                    img.className = 'w-full h-48 object-cover rounded-lg transform transition-transform hover:scale-105';
+                    assetsContainer.appendChild(img);
+                });
+            } else {
+                assetsContainer.innerHTML = '<p class="text-center text-gray-600 col-span-3">No visual assets available.</p>';
+            }
+
+            // Results
+            const resultsContainer = document.getElementById('project-results');
+            resultsContainer.innerHTML = '';
+            if (project.results && project.results.length > 0) {
+                project.results.forEach(result => {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.innerHTML = `
+                        <h3 class="text-2xl font-bold text-blue-600">${result.metric_value || 'N/A'}</h3>
+                        <p class="text-gray-600">${result.metric_description || 'No description'}</p>
+                    `;
+                    resultsContainer.appendChild(resultDiv);
+                });
+            } else {
+                resultsContainer.innerHTML = '<p class="text-center text-gray-600 col-span-3">No results available.</p>';
+            }
+
+            // Client Quote
+            const quoteBlock = document.getElementById('client-quote');
+            if (project.client_quote) {
+                quoteBlock.textContent = `"${project.client_quote}" – Satisfied Client`;
+                quoteBlock.classList.remove('hidden');
+            } else {
+                quoteBlock.classList.add('hidden');
+            }
+        }
+
+        // Function to display error messages
+        function displayError(message) {
+            const sections = [
+                'project-title', 'project-description', 'project-overview',
+                'project-process', 'project-meta'
+            ];
+            sections.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = message;
+            });
+
+            document.getElementById('project-title-breadcrumb').textContent = 'Error';
+            document.getElementById('project-image').src = 'images/placeholder.png';
+            document.getElementById('project-image').alt = 'Error';
+            document.getElementById('project-features').innerHTML = `<p class="text-center text-gray-600 col-span-3">${message}</p>`;
+            document.getElementById('project-technologies').innerHTML = `<li>${message}</li>`;
+            document.getElementById('project-assets').innerHTML = `<p class="text-center text-gray-600 col-span-3">${message}</p>`;
+            document.getElementById('project-results').innerHTML = `<p class="text-center text-gray-600 col-span-3">${message}</p>`;
+            document.getElementById('client-quote').classList.add('hidden');
+        }
+
+        // Fetch project data on page load
+        window.addEventListener('DOMContentLoaded', fetchProjectData);
+    </script>
+
+    <!-- Script for tracking visitor to the webpage -->
+    <script src="./js/client.js"></script>
+</body>
+</html>
